@@ -1,5 +1,19 @@
 #!/usr/bin/env python3
 
+# Copyright 2018 Google Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import socket
 from http.server import BaseHTTPRequestHandler,HTTPServer
 import ssl
@@ -11,8 +25,8 @@ from google.auth.transport.requests import AuthorizedSession
 from google import auth
 import json
 
-# See README file for instructions
-# HTTPS server address 
+# See README.md file for instructions
+# HTTPS server address
 SERVER = sys.argv[1]
 # HTTPS server port
 SERVER_PORT = int(sys.argv[2])
@@ -89,7 +103,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 httpd = HTTPServer((SERVER, SERVER_PORT), Handler)
 # Create a socket and check client certificate for TLS handshake. ca_certs parameter points to the file with CA certificates.
 httpd.socket = LoggingSSLSocket(httpd.socket, certfile = SERVER_CERTIFICATE, server_side = True, cert_reqs = ssl.CERT_REQUIRED, ca_certs = CA_BUNDLE)
-logging.info("Starting server on " + SERVER + ":" + str(SERVER_PORT)) 
+logging.info("Starting server on " + SERVER + ":" + str(SERVER_PORT))
 
 # Start the server
 httpd.serve_forever()
