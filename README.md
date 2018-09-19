@@ -40,7 +40,13 @@ When a token expires, all requests using that access token fail, regardless of w
 1. Create a service account with IAM roles that must be granted to your client-side application. This service account will be impersonated by the client application, i.e. the client application will have access to all resources that this service account has. In this example, the client service account has write access to GCS.
 1. Create a GCE instance in a secured subnet and assign it a service account with a role called *Service Account Token Creator*. This role is required to generate IAM tokens. We will use *token-broker* as the name of the instance going forward. These instructions were written for Debian but the python script that runs Token Broker can be run on any operating system supported by Google Cloud SDK.
 
-   1. Ssh to the created token broker GCE instance and run the following command:
+   1. Ssh to the created token broker GCE instance and run the following command to test permissions:
+          token_creator_sa=<service account that has permissions to create IAM tokens>
+          desired_sa=<service account with permissions that will be used by the client app>
+          curl -H "Authorization: Bearer $(gcloud beta auth application-default print-access-token --project $project)" -H "Content-Type: application/json" \
+          -d '{"delegates": ["projects/-/serviceAccounts/$token_creator_sa"], "lifetime": "60", "scope": ["$scopes"]}' \
+          https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/$desired_sa:generateAccessToken
+
    1. Pull a repository with Token Broker code from the github repository to the new GCE instance.
    1. Cd to the token-broker directory and run the following command:
 
