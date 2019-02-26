@@ -23,7 +23,7 @@ def upload_stream_resumable(name, byte_stream, bucket_name):
     """
     try:
         token_broker_obj = TokenHttpInitializerWrapper(URL_STRING, CLIENT_CERTIFICATE)
-        storage_client = token_broker_obj.initialize_storage(project_id='accesstokenbroker')
+        storage_client = token_broker_obj.initialize_storage(project_id=STORAGE_ROJECT_ID)
         bucket = storage_client.get_bucket(bucket_name)
         blob = bucket.blob(name)
         blob.upload_from_string(byte_stream)
@@ -37,10 +37,10 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 TOKEN_BROKER_HOSTNAME = os.environ['TOKEN_BROKER_DNS']
 CLIENT_CERTIFICATE = os.environ['CLIENT_CERTIFICATE']
-KEY_STORE = os.environ['KEY_STORE']
+STORAGE_ROJECT_ID = os.environ['STORAGE_ROJECT_ID']
 
 logging.info("Using client certificate at %s", CLIENT_CERTIFICATE)
-logging.info("Using key store at %s", KEY_STORE)
+logging.info("Using project %s", STORAGE_ROJECT_ID)
 
 URL_STRING = TOKEN_BROKER_HOSTNAME
 logging.info("Connectiong to %s", URL_STRING)
