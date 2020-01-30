@@ -1,7 +1,7 @@
 # Access Token Broker
 
 This repository contains the sample code for the 
-[Authenticating to services by using client certificates] tutorial.
+[Authenticating to services by using client certificates](https://cloud.google.com/solutions/using-mutual-tls-to-obtain-short-lived-credentials) tutorial.
 
 ## License
 
